@@ -1,3 +1,6 @@
+#include <memory>
+#include <list>
+
 #include "raylib-cpp.hpp"
 #include "Player.hpp"
 #include "Asteroid.hpp"
@@ -5,8 +8,9 @@
 const int screenWidth = 3840;
 const int screenHeight = 2160;
 
-std::vector<Bullet *> bullets;
-std::vector<Asteroid *> asteroids;
+std::list<std::shared_ptr<Asteroid>> asteroids;
+std::list<std::shared_ptr<Bullet>> bullets;
+std::shared_ptr<Player> player;
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
@@ -15,7 +19,7 @@ int main() {
     RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
     Rectangle renderRec;
 
-    Player player((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
+    player = std::make_shared<Player>((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
 
     SetTargetFPS(60);
 
@@ -33,21 +37,21 @@ int main() {
                 else
                     y = 0;
 
-                auto angle = (float) (atan((x - player.position.x) / (player.position.y - y)) * (180 / M_PI));
+                auto angle = (float) (atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
 
-                if (player.position.y - y > 0)
+                if (player->position.y - y > 0)
                     angle += 180;
 
                 angle += (float) GetRandomValue(-45, 45);
 
-                asteroids.push_back(new Asteroid(x, y, angle, 150));
+                asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
             }
 
-            player.update();
-            player.draw();
+            player->update();
+            player->draw();
 
-            if (IsKeyDown(KEY_SPACE) && player.canShoot()) {
-                bullets.push_back(player.shoot());
+            if (IsKeyDown(KEY_SPACE) && player->canShoot()) {
+                bullets.push_back(player->shoot());
             }
 
             for (auto &bullet: bullets) {

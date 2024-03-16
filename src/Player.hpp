@@ -27,7 +27,7 @@ public:
 
     [[nodiscard]] bool canShoot() const;
 
-    Bullet *shoot();
+    std::shared_ptr<Bullet> shoot();
 
     static float approach(float value, float goal, float step);
 };
