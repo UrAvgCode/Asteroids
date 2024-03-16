@@ -2,36 +2,35 @@
 
 #include <iostream>
 
+const int SCREEN_WIDTH = 3840;
+const int SCREEN_HEIGHT = 2160;
+const int ANIMATION_FRAMES = 8;
+const int MAX_ANGLE_SPEED = 5;
+
 Player::Player(float x, float y) : PhysicsObject(x, y, 100.0f) {
     angleSpeed = 0;
     speed = 15;
-
     thrust = 100;
-
     shootTimer = 0;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < ANIMATION_FRAMES; i++) {
         animation[i] = raylib::Texture("res/spaceship/spaceship_" + std::to_string(i) + ".png");
-    }
-
-
-    for (auto &animationFrame: animation) {
         int textureSize = 150;
-        float ratio = (float) animationFrame.GetWidth() / (float) animationFrame.GetHeight();
+        float ratio = (float) animation[i].GetWidth() / (float) animation[i].GetHeight();
 
-        animationFrame.SetHeight(textureSize);
-        animationFrame.SetWidth((int) ((float) textureSize * ratio));
-        animationFrame.SetFilter(TEXTURE_FILTER_TRILINEAR);
+        animation[i].SetHeight(textureSize);
+        animation[i].SetWidth((int) ((float) textureSize * ratio));
+        animation[i].SetFilter(TEXTURE_FILTER_TRILINEAR);
     }
 }
 
 void Player::draw() const {
-    int i = (frame / 2) % 8;
-    raylib::Rectangle source(0, 0, (float) animation[i].GetWidth(), (float) animation[i].GetHeight());
-    raylib::Rectangle dest((float) position.x, (float) position.y, (float) animation[i].GetWidth(),
-                           (float) animation[i].GetHeight());
-    DrawTexturePro(animation[i], source, dest,
-                   Vector2{(float) animation[i].GetWidth() / 2, (float) animation[i].GetHeight() / 2}, rotation, WHITE);
+    int i = (frame / 2) % ANIMATION_FRAMES;
+    auto width = (float) animation[i].GetWidth();
+    auto height = (float) animation[i].GetHeight();
+    raylib::Rectangle source(0, 0, width, height);
+    raylib::Rectangle dest((float) position.x, (float) position.y, width, height);
+    DrawTexturePro(animation[i], source, dest, Vector2{width / 2, height / 2}, rotation, WHITE);
 }
 
 void Player::update() {
@@ -43,10 +42,10 @@ void Player::update() {
     if (!IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
         angleSpeed = approach(angleSpeed, 0, 0.4);
 
-    if (angleSpeed > 5)
-        angleSpeed = 5;
-    if (angleSpeed < -5)
-        angleSpeed = -5;
+    if (angleSpeed > MAX_ANGLE_SPEED)
+        angleSpeed = MAX_ANGLE_SPEED;
+    if (angleSpeed < -MAX_ANGLE_SPEED)
+        angleSpeed = -MAX_ANGLE_SPEED;
 
     raylib::Vector2 acceleration(0.0f, 0.0f);
     if (IsKeyDown(KEY_W)) {
@@ -57,16 +56,14 @@ void Player::update() {
 
     rotation += angleSpeed;
 
-    float screenWidth = 3840;
-    float screenHeight = 2160;
-    if (position.x > screenWidth)
+    if (position.x > SCREEN_WIDTH)
         position.x = 0;
     if (position.x < 0)
-        position.x = screenWidth;
-    if (position.y > screenHeight)
+        position.x = SCREEN_WIDTH;
+    if (position.y > SCREEN_HEIGHT)
         position.y = 0;
     if (position.y < 0)
-        position.y = screenHeight;
+        position.y = SCREEN_HEIGHT;
 
     if (shootTimer > 0)
         shootTimer--;
@@ -88,12 +85,9 @@ std::shared_ptr<Bullet> Player::shoot() {
 }
 
 float Player::approach(float value, float goal, float step) {
-    if (value < goal && value + step < goal) {
-        value += step;
-    } else if (value > goal && value - step > goal) {
-        value -= step;
+    if (value < goal) {
+        return std::min(value + step, goal);
     } else {
-        value = goal;
+        return std::max(value - step, goal);
     }
-    return value;
 }
