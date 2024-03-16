@@ -2,10 +2,13 @@
 #include "Player.hpp"
 #include "Asteroid.hpp"
 
-int main() {
-    int screenWidth = 3840;
-    int screenHeight = 2160;
+const int screenWidth = 3840;
+const int screenHeight = 2160;
 
+std::vector<Bullet *> bullets;
+std::vector<Asteroid *> asteroids;
+
+int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     raylib::Window window(screenWidth, screenHeight, "");
 
@@ -13,8 +16,6 @@ int main() {
     Rectangle renderRec;
 
     Player player((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
-    std::vector<Bullet *> bullets;
-    std::vector<Asteroid *> asteroids;
 
     SetTargetFPS(60);
 
@@ -63,7 +64,7 @@ int main() {
 
         BeginDrawing();
         {
-            window.ClearBackground(CLITERAL(Color){15,15,15});
+            window.ClearBackground(CLITERAL(Color){15, 15, 15});
 
             float renderScale = std::min((float) GetScreenHeight() / (float) canvas.texture.height,
                                          (float) GetScreenWidth() / (float) canvas.texture.width);
