@@ -11,7 +11,7 @@ Player::Player(float x, float y) : PhysicsObject(x, y, 100.0f) {
     shootTimer = 0;
 
     for (int i = 0; i < 8; i++) {
-        animation[i] = raylib::Texture("resources/spaceship/spaceship_" + std::to_string(i) + ".png");
+        animation[i] = raylib::Texture("res/spaceship/spaceship_" + std::to_string(i) + ".png");
     }
 
 
