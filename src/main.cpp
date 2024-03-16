@@ -1,4 +1,5 @@
 #include "raylib-cpp.hpp"
+#include "Player.hpp"
 
 int main() {
     int screenWidth = 3840;
@@ -10,9 +11,7 @@ int main() {
     RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
     Rectangle renderRec;
 
-    raylib::Texture asteroid("res/asteroid.png");
-    raylib::Texture spaceship("res/spaceship/spaceship_0.png");
-    raylib::Texture laser("res/laser.png");
+    Player player((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
 
     SetTargetFPS(60);
 
@@ -21,9 +20,9 @@ int main() {
         {
             ClearBackground(BLACK);
 
-            DrawTexture(asteroid, 100, 100, WHITE);
-            DrawTexture(spaceship, 500, 100, WHITE);
-            DrawTexture(laser, 700, 100, WHITE);
+            player.update();
+            player.draw();
+
         }
         EndTextureMode();
 
