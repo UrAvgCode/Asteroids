@@ -57,14 +57,16 @@ void Player::update() {
 
     rotation += angleSpeed;
 
-    if (position.x > (float) GetScreenWidth())
+    float screenWidth = 3840;
+    float screenHeight = 2160;
+    if (position.x > screenWidth)
         position.x = 0;
     if (position.x < 0)
-        position.x = (float) GetScreenWidth();
-    if (position.y > (float) GetScreenHeight())
+        position.x = screenWidth;
+    if (position.y > screenHeight)
         position.y = 0;
     if (position.y < 0)
-        position.y = (float) GetScreenHeight();
+        position.y = screenHeight;
 
     if (shootTimer > 0)
         shootTimer--;
