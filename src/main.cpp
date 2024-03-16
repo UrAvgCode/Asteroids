@@ -12,6 +12,27 @@ std::list<std::shared_ptr<Asteroid>> asteroids;
 std::list<std::shared_ptr<Bullet>> bullets;
 std::shared_ptr<Player> player;
 
+void spawnAsteroid() {
+    auto x = (float) GetRandomValue(0, screenWidth);
+    auto y = (float) GetRandomValue(0, screenHeight);
+
+    if (GetRandomValue(0, 1) == 0) {
+        x = 0;
+    } else {
+        y = 0;
+    }
+
+    auto angle = (float) (atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
+
+    if (player->position.y - y > 0) {
+        angle += 180;
+    }
+
+    angle += (float) GetRandomValue(-45, 45);
+
+    asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
+}
+
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     raylib::Window window(screenWidth, screenHeight, "");
@@ -29,22 +50,7 @@ int main() {
             ClearBackground(BLACK);
 
             if (GetRandomValue(0, 100) < 5) {
-                auto x = (float) GetRandomValue(0, GetScreenWidth());
-                auto y = (float) GetRandomValue(0, GetScreenHeight());
-
-                if (GetRandomValue(0, 1) == 0)
-                    x = 0;
-                else
-                    y = 0;
-
-                auto angle = (float) (atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
-
-                if (player->position.y - y > 0)
-                    angle += 180;
-
-                angle += (float) GetRandomValue(-45, 45);
-
-                asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
+                spawnAsteroid();
             }
 
             player->update();
