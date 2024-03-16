@@ -4,7 +4,7 @@ int main() {
     int screenWidth = 3840;
     int screenHeight = 2160;
 
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     raylib::Window window(screenWidth, screenHeight, "");
 
     RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
@@ -19,7 +19,7 @@ int main() {
     while (!window.ShouldClose()) {
         BeginTextureMode(canvas);
         {
-            ClearBackground(RAYWHITE);
+            ClearBackground(BLACK);
 
             DrawTexture(asteroid, 100, 100, WHITE);
             DrawTexture(spaceship, 500, 100, WHITE);
@@ -29,7 +29,7 @@ int main() {
 
         BeginDrawing();
         {
-            window.ClearBackground(BLACK);
+            window.ClearBackground(CLITERAL(Color){15,15,15});
 
             float renderScale = std::min((float) GetScreenHeight() / (float) canvas.texture.height,
                                          (float) GetScreenWidth() / (float) canvas.texture.width);
