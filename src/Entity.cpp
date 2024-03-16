@@ -1,5 +1,8 @@
 #include "Entity.hpp"
 
+float screenWidth = 3840;
+float screenHeight = 2160;
+
 Entity::Entity(float x, float y, float size) {
     position = raylib::Vector2(x, y);
     velocity = raylib::Vector2(0.0, 0.0);
@@ -23,7 +26,7 @@ void Entity::move(float x, float y) {
 }
 
 bool Entity::isOffScreen() const {
-    return position.x < 0 || position.x > (float) GetScreenWidth() || position.y < 0 || position.y > (float) GetScreenHeight();
+    return position.x < 0 || position.x > (float) screenWidth || position.y < 0 || position.y > (float) screenHeight;
 }
 
 bool Entity::checkCollision(Entity *other) {

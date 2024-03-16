@@ -60,14 +60,28 @@ int main() {
                 bullets.push_back(player->shoot());
             }
 
-            for (auto &bullet: bullets) {
-                bullet->update();
-                bullet->draw();
+            std::list<std::shared_ptr<Bullet>> bulletsToDelete;
+            for (const auto &bullet: bulletsToDelete) {
+                bullets.remove(bullet);
             }
 
-            for (auto &asteroid: asteroids) {
+            for (const auto &bullet: bullets) {
+                bullet->update();
+                bullet->draw();
+
+                if (bullet->isOffScreen()) bulletsToDelete.push_back(bullet);
+            }
+
+            std::list<std::shared_ptr<Asteroid>> asteroidsToDelete;
+            for (const auto &asteroid: asteroidsToDelete) {
+                asteroids.remove(asteroid);
+            }
+
+            for (const auto &asteroid: asteroids) {
                 asteroid->update();
                 asteroid->draw();
+
+                if (asteroid->isOffScreen()) asteroidsToDelete.push_back(asteroid);
             }
         }
         EndTextureMode();
