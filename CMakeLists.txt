@@ -33,3 +33,7 @@ set(SOURCES src/main.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
+
+# Copy resources to target directory
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/res
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
