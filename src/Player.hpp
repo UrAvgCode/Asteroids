@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "PhysicsObject.hpp"
+#include "Bullet.hpp"
 
 class Player : public PhysicsObject
 {
@@ -25,6 +26,8 @@ public:
     void update() override;
 
     [[nodiscard]] bool canShoot() const;
+
+    Bullet *shoot();
 
     static float approach(float value, float goal, float step);
 };

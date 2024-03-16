@@ -78,6 +78,15 @@ bool Player::canShoot() const {
     return shootTimer <= 0;
 }
 
+Bullet *Player::shoot() {
+    shootTimer = 10;
+
+    float bulletX = position.x + (float) (sin(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
+    float bulletY = position.y - (float) (cos(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
+
+    return new Bullet(bulletX, bulletY, rotation);
+}
+
 float Player::approach(float value, float goal, float step) {
     if (value < goal && value + step < goal) {
         value += step;

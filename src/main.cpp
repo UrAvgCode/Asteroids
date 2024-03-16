@@ -12,6 +12,7 @@ int main() {
     Rectangle renderRec;
 
     Player player((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
+    std::vector<Bullet *> bullets;
 
     SetTargetFPS(60);
 
@@ -23,6 +24,14 @@ int main() {
             player.update();
             player.draw();
 
+            if (IsKeyDown(KEY_SPACE) && player.canShoot()) {
+                bullets.push_back(player.shoot());
+            }
+
+            for (auto &bullet: bullets) {
+                bullet->update();
+                bullet->draw();
+            }
         }
         EndTextureMode();
 
