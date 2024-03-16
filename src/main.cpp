@@ -1,8 +1,8 @@
 #include "raylib-cpp.hpp"
 
 int main() {
-    int screenWidth = 1280;
-    int screenHeight = 720;
+    int screenWidth = 3840;
+    int screenHeight = 2160;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     raylib::Window window(screenWidth, screenHeight, "");
@@ -10,13 +10,20 @@ int main() {
     RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
     Rectangle renderRec;
 
+    raylib::Texture asteroid("res/asteroid.png");
+    raylib::Texture spaceship("res/spaceship/spaceship_0.png");
+    raylib::Texture laser("res/laser.png");
+
     SetTargetFPS(60);
 
     while (!window.ShouldClose()) {
         BeginTextureMode(canvas);
         {
             ClearBackground(RAYWHITE);
-            DrawText("Hello World", 500, 300, 45, DARKGRAY);
+
+            DrawTexture(asteroid, 100, 100, WHITE);
+            DrawTexture(spaceship, 500, 100, WHITE);
+            DrawTexture(laser, 700, 100, WHITE);
         }
         EndTextureMode();
 
