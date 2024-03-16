@@ -5,7 +5,7 @@ Bullet::Bullet(float x, float y, float angle) : Entity(x, y, 10.0f) {
 
     speed = 23;
 
-    texture = raylib::Texture("resources/bullet0.png");
+    texture = raylib::Texture("res/laser.png");
 
     velocity.x = (float) sin(angle * (M_PI / 180)) * speed;
     velocity.y = (float) -cos(angle * (M_PI / 180)) * speed;
