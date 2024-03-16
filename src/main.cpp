@@ -1,5 +1,6 @@
 #include "raylib-cpp.hpp"
 #include "Player.hpp"
+#include "Asteroid.hpp"
 
 int main() {
     int screenWidth = 3840;
@@ -13,6 +14,7 @@ int main() {
 
     Player player((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
     std::vector<Bullet *> bullets;
+    std::vector<Asteroid *> asteroids;
 
     SetTargetFPS(60);
 
@@ -20,6 +22,25 @@ int main() {
         BeginTextureMode(canvas);
         {
             ClearBackground(BLACK);
+
+            if (GetRandomValue(0, 100) < 5) {
+                auto x = (float) GetRandomValue(0, GetScreenWidth());
+                auto y = (float) GetRandomValue(0, GetScreenHeight());
+
+                if (GetRandomValue(0, 1) == 0)
+                    x = 0;
+                else
+                    y = 0;
+
+                auto angle = (float) (atan((x - player.position.x) / (player.position.y - y)) * (180 / M_PI));
+
+                if (player.position.y - y > 0)
+                    angle += 180;
+
+                angle += (float) GetRandomValue(-45, 45);
+
+                asteroids.push_back(new Asteroid(x, y, angle, 150));
+            }
 
             player.update();
             player.draw();
@@ -31,6 +52,11 @@ int main() {
             for (auto &bullet: bullets) {
                 bullet->update();
                 bullet->draw();
+            }
+
+            for (auto &asteroid: asteroids) {
+                asteroid->update();
+                asteroid->draw();
             }
         }
         EndTextureMode();
