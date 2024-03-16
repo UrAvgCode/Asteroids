@@ -5,8 +5,7 @@
 
 #include "Entity.hpp"
 
-class Asteroid : public Entity
-{
+class Asteroid : public Entity {
 public:
     raylib::Texture texture;
 
@@ -14,7 +13,7 @@ public:
 
     void draw() const override;
 
-    [[nodiscard]] Asteroid *split() const;
+    [[nodiscard]] std::shared_ptr<Asteroid> split() const;
 
     [[nodiscard]] bool canSplit() const;
 };

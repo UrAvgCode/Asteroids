@@ -26,10 +26,10 @@ void Entity::move(float x, float y) {
 }
 
 bool Entity::isOffScreen() const {
-    return position.x < 0 || position.x > (float) screenWidth || position.y < 0 || position.y > (float) screenHeight;
+    return position.x < 0 || position.x > screenWidth || position.y < 0 || position.y > screenHeight;
 }
 
-bool Entity::checkCollision(Entity *other) {
+bool Entity::checkCollision(const std::shared_ptr<Entity> &other) {
     return (CheckCollisionCircles(Vector2{(float) position.x, (float) position.y}, size / 2.0f,
                                   Vector2{(float) other->position.x, (float) other->position.y}, other->size / 2.0f));
 }

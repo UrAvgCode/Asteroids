@@ -22,5 +22,5 @@ public:
 
     [[nodiscard]] bool isOffScreen() const;
 
-    virtual bool checkCollision(Entity *other);
+    virtual bool checkCollision(const std::shared_ptr<Entity> &other);
 };

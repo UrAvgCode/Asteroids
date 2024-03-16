@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include <list>
 
@@ -31,6 +32,38 @@ void spawnAsteroid() {
     angle += (float) GetRandomValue(-45, 45);
 
     asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
+}
+
+void checkCollisions() {
+    std::list<std::shared_ptr<Asteroid>> asteroidsToDelete;
+    std::list<std::shared_ptr<Bullet>> bulletsToDelete;
+
+    for (const auto &asteroid: asteroids) {
+        if (player->checkCollision(asteroid)) {
+            std::cout << "Player hit!" << std::endl;
+            asteroidsToDelete.push_back(asteroid);
+        }
+
+        for (const auto &bullet: bullets) {
+            if (asteroid->checkCollision(bullet)) {
+                if (asteroid->canSplit()) {
+                    asteroids.push_back(asteroid->split());
+                    asteroids.push_back(asteroid->split());
+                }
+
+                asteroidsToDelete.push_back(asteroid);
+                bulletsToDelete.push_back(bullet);
+            }
+        }
+    }
+
+    for (const auto &asteroid: asteroidsToDelete) {
+        asteroids.remove(asteroid);
+    }
+
+    for (const auto &bullet: bulletsToDelete) {
+        bullets.remove(bullet);
+    }
 }
 
 int main() {
@@ -83,6 +116,9 @@ int main() {
 
                 if (asteroid->isOffScreen()) asteroidsToDelete.push_back(asteroid);
             }
+
+            checkCollisions();
+
         }
         EndTextureMode();
 

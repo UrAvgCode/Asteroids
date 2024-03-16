@@ -21,13 +21,9 @@ void Asteroid::draw() const {
     DrawTexturePro(texture, source, dest, Vector2{(float) texture.GetWidth() / 2, (float) texture.GetHeight() / 2}, 0,WHITE);
 }
 
-Asteroid *Asteroid::split() const {
+std::shared_ptr<Asteroid> Asteroid::split() const {
     float splitAngle = rotation + (float) GetRandomValue(-45, 45);
-
-    if (size > 100)
-        return new Asteroid(position.x, position.y, splitAngle, size / 1.5f);
-    else
-        return nullptr;
+    return std::make_shared<Asteroid>(position.x, position.y, splitAngle, size / 1.5f);
 }
 
 bool Asteroid::canSplit() const {
