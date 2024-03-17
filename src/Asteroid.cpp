@@ -16,9 +16,11 @@ Asteroid::Asteroid(float x, float y, float angle, float size) : Entity(x, y, siz
 }
 
 void Asteroid::draw() const {
-    raylib::Rectangle source(0, 0, (float) texture.GetWidth(), (float) texture.GetHeight());
-    raylib::Rectangle dest(position.x, position.y, (float) texture.GetWidth(), (float) texture.GetHeight());
-    DrawTexturePro(texture, source, dest, Vector2{(float) texture.GetWidth() / 2, (float) texture.GetHeight() / 2}, 0,WHITE);
+    auto width = (float) texture.GetWidth();
+    auto height = (float) texture.GetHeight();
+    raylib::Rectangle source(0, 0, width, height);
+    raylib::Rectangle dest(position.x, position.y, width, height);
+    DrawTexturePro(texture, source, dest, Vector2{width / 2, height / 2}, 0,WHITE);
 }
 
 std::shared_ptr<Asteroid> Asteroid::split() const {
