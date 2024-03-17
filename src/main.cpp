@@ -13,6 +13,10 @@ std::list<std::shared_ptr<Asteroid>> asteroids;
 std::list<std::shared_ptr<Bullet>> bullets;
 std::shared_ptr<Player> player;
 
+const int MAX_HEALTH = 100;
+int health = MAX_HEALTH;
+int score = 0;
+
 void spawnAsteroid() {
     auto x = (float) GetRandomValue(0, screenWidth);
     auto y = (float) GetRandomValue(0, screenHeight);
@@ -40,7 +44,7 @@ void checkCollisions() {
 
     for (const auto &asteroid: asteroids) {
         if (player->checkCollision(asteroid)) {
-            std::cout << "Player hit!" << std::endl;
+            health -= (int) asteroid->size / 10;
             asteroidsToDelete.push_back(asteroid);
         }
 
@@ -49,6 +53,8 @@ void checkCollisions() {
                 if (asteroid->canSplit()) {
                     asteroids.push_back(asteroid->split());
                     asteroids.push_back(asteroid->split());
+                } else {
+                    score += 1;
                 }
 
                 asteroidsToDelete.push_back(asteroid);
@@ -66,6 +72,19 @@ void checkCollisions() {
     }
 }
 
+void drawGui() {
+    int healthbarWidth = 500;
+    int healthbarHeight = 50;
+    auto healthbarColor = health > 50 ? GREEN : health > 25 ? YELLOW : RED;
+
+    DrawText("Health", 50, 30, 28, WHITE);
+    DrawRectangle(50, 70, healthbarWidth / MAX_HEALTH * health, healthbarHeight, healthbarColor);
+    DrawRectangleLines(50, 70, healthbarWidth, healthbarHeight, LIGHTGRAY);
+
+    DrawText("Score:", 50, 135, 28, WHITE);
+    DrawText(std::to_string(score).c_str(), 150, 135, 28, WHITE);
+}
+
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     raylib::Window window(screenWidth, screenHeight, "");
@@ -81,6 +100,8 @@ int main() {
         BeginTextureMode(canvas);
         {
             ClearBackground(BLACK);
+
+            checkCollisions();
 
             if (GetRandomValue(0, 100) < 5) {
                 spawnAsteroid();
@@ -117,7 +138,7 @@ int main() {
                 if (asteroid->isOffScreen()) asteroidsToDelete.push_back(asteroid);
             }
 
-            checkCollisions();
+            drawGui();
 
         }
         EndTextureMode();
