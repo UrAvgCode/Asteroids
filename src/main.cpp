@@ -167,6 +167,7 @@ int main() {
             auto source_height = static_cast<float>(-canvas.texture.height);
             Rectangle source = Rectangle{0.0f, 0.0f, source_width, source_height};
 
+            SetTextureFilter(canvas.texture, TEXTURE_FILTER_TRILINEAR);
             DrawTexturePro(canvas.texture, source, render_rec, {}, 0.0f, WHITE);
         }
         EndDrawing();
