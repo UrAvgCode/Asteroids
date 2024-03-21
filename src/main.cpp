@@ -18,22 +18,18 @@ int health = MAX_HEALTH;
 int score = 0;
 
 void spawnAsteroid() {
-    auto x = (float) GetRandomValue(0, screenWidth);
-    auto y = (float) GetRandomValue(0, screenHeight);
+    auto x = static_cast<float>(GetRandomValue(0, screenWidth));
+    auto y = static_cast<float>(GetRandomValue(0, screenHeight));
 
-    if (GetRandomValue(0, 1) == 0) {
-        x = 0;
-    } else {
-        y = 0;
-    }
+    (GetRandomValue(0, 1) == 0) ? x = 0 : y = 0;
 
-    auto angle = (float) (atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
+    auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
 
     if (player->position.y - y > 0) {
         angle += 180;
     }
 
-    angle += (float) GetRandomValue(-45, 45);
+    angle += static_cast<float>(GetRandomValue(-45, 45));
 
     asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
 }
@@ -44,7 +40,7 @@ void checkCollisions() {
 
     for (const auto &asteroid: asteroids) {
         if (player->checkCollision(asteroid)) {
-            health -= (int) asteroid->size / 10;
+            health -= static_cast<int>(asteroid->size) / 10;
             asteroidsToDelete.push_back(asteroid);
         }
 
@@ -92,7 +88,7 @@ int main() {
     RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
     Rectangle renderRec;
 
-    player = std::make_shared<Player>((float) screenWidth / 2.0f, (float) screenHeight / 2.0f);
+    player = std::make_shared<Player>(static_cast<float>(screenWidth) / 2.0f, static_cast<float>(screenHeight / 2.0f));
 
     SetTargetFPS(60);
 
@@ -147,14 +143,18 @@ int main() {
         {
             window.ClearBackground(CLITERAL(Color){15, 15, 15});
 
-            float renderScale = std::min((float) GetScreenHeight() / (float) canvas.texture.height,
-                                         (float) GetScreenWidth() / (float) canvas.texture.width);
-            renderRec.width = (float) canvas.texture.width * renderScale;
-            renderRec.height = (float) canvas.texture.height * renderScale;
-            renderRec.x = ((float) GetScreenWidth() - renderRec.width) / 2.0f;
-            renderRec.y = ((float) GetScreenHeight() - renderRec.height) / 2.0f;
+            float widthScale = static_cast<float>(GetScreenWidth()) / static_cast<float>(canvas.texture.width);
+            float heightScale = static_cast<float>(GetScreenHeight()) / static_cast<float>(canvas.texture.height);
+            float renderScale = std::min(widthScale, heightScale);
+            renderRec.width = static_cast<float>(canvas.texture.width) * renderScale;
+            renderRec.height = static_cast<float>(canvas.texture.height) * renderScale;
+            renderRec.x = (static_cast<float>(GetScreenWidth()) - renderRec.width) / 2.0f;
+            renderRec.y = (static_cast<float>(GetScreenHeight()) - renderRec.height) / 2.0f;
 
-            Rectangle source = Rectangle{0, 0, (float) canvas.texture.width, (float) -canvas.texture.height};
+            auto sourceWidth = static_cast<float>(canvas.texture.width);
+            auto sourceHeight = static_cast<float>(-canvas.texture.height);
+            Rectangle source = Rectangle{0, 0, sourceWidth, sourceHeight};
+
             DrawTexturePro(canvas.texture, source, renderRec, {}, 0, WHITE);
         }
         EndDrawing();
