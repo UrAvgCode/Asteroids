@@ -10,10 +10,10 @@
 class Player : public PhysicsObject
 {
 public:
-    float angleSpeed;
+    float angle_speed;
     float thrust;
 
-    int shootTimer;
+    int shoot_timer;
 
     int frame = 0;
 

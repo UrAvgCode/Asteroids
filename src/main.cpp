@@ -6,20 +6,20 @@
 #include "Player.hpp"
 #include "Asteroid.hpp"
 
-const int screenWidth = 3840;
-const int screenHeight = 2160;
+const int screen_width = 3840;
+const int screen_height = 2160;
 
 std::list<std::shared_ptr<Asteroid>> asteroids;
 std::list<std::shared_ptr<Bullet>> bullets;
 std::shared_ptr<Player> player;
 
-const int MAX_HEALTH = 100;
-int health = MAX_HEALTH;
+const int max_health = 100;
+int health = max_health;
 int score = 0;
 
 void spawnAsteroid() {
-    auto x = static_cast<float>(GetRandomValue(0, screenWidth));
-    auto y = static_cast<float>(GetRandomValue(0, screenHeight));
+    auto x = static_cast<float>(GetRandomValue(0, screen_width));
+    auto y = static_cast<float>(GetRandomValue(0, screen_height));
 
     (GetRandomValue(0, 1) == 0) ? x = 0 : y = 0;
 
@@ -35,13 +35,13 @@ void spawnAsteroid() {
 }
 
 void checkCollisions() {
-    std::list<std::shared_ptr<Asteroid>> asteroidsToDelete;
-    std::list<std::shared_ptr<Bullet>> bulletsToDelete;
+    std::list<std::shared_ptr<Asteroid>> asteroids_to_delete;
+    std::list<std::shared_ptr<Bullet>> bullets_to_delete;
 
     for (const auto &asteroid: asteroids) {
         if (player->checkCollision(asteroid)) {
             health -= static_cast<int>(asteroid->size) / 10;
-            asteroidsToDelete.push_back(asteroid);
+            asteroids_to_delete.push_back(asteroid);
         }
 
         for (const auto &bullet: bullets) {
@@ -53,29 +53,29 @@ void checkCollisions() {
                     score += 1;
                 }
 
-                asteroidsToDelete.push_back(asteroid);
-                bulletsToDelete.push_back(bullet);
+                asteroids_to_delete.push_back(asteroid);
+                bullets_to_delete.push_back(bullet);
             }
         }
     }
 
-    for (const auto &asteroid: asteroidsToDelete) {
+    for (const auto &asteroid: asteroids_to_delete) {
         asteroids.remove(asteroid);
     }
 
-    for (const auto &bullet: bulletsToDelete) {
+    for (const auto &bullet: bullets_to_delete) {
         bullets.remove(bullet);
     }
 }
 
 void drawGui() {
-    int healthbarWidth = 500;
-    int healthbarHeight = 50;
-    auto healthbarColor = health > 50 ? GREEN : health > 25 ? YELLOW : RED;
+    int health_bar_width = 500;
+    int health_bar_height = 50;
+    auto health_bar_color = health > 50 ? GREEN : health > 25 ? YELLOW : RED;
 
     DrawText("Health", 50, 30, 28, WHITE);
-    DrawRectangle(50, 70, healthbarWidth / MAX_HEALTH * health, healthbarHeight, healthbarColor);
-    DrawRectangleLines(50, 70, healthbarWidth, healthbarHeight, LIGHTGRAY);
+    DrawRectangle(50, 70, health_bar_width / max_health * health, health_bar_height, health_bar_color);
+    DrawRectangleLines(50, 70, health_bar_width, health_bar_height, LIGHTGRAY);
 
     DrawText("Score:", 50, 135, 28, WHITE);
     DrawText(std::to_string(score).c_str(), 150, 135, 28, WHITE);
@@ -83,12 +83,12 @@ void drawGui() {
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
-    raylib::Window window(screenWidth, screenHeight, "");
+    raylib::Window window(screen_width, screen_height, "");
 
-    RenderTexture2D canvas = LoadRenderTexture(screenWidth, screenHeight);
-    Rectangle renderRec;
+    RenderTexture2D canvas = LoadRenderTexture(screen_width, screen_height);
+    Rectangle render_rec;
 
-    player = std::make_shared<Player>(static_cast<float>(screenWidth) / 2.0f, static_cast<float>(screenHeight / 2.0f));
+    player = std::make_shared<Player>(static_cast<float>(screen_width) / 2.0f, static_cast<float>(screen_height / 2.0f));
 
     SetTargetFPS(60);
 
@@ -110,8 +110,8 @@ int main() {
                 bullets.push_back(player->shoot());
             }
 
-            std::list<std::shared_ptr<Bullet>> bulletsToDelete;
-            for (const auto &bullet: bulletsToDelete) {
+            std::list<std::shared_ptr<Bullet>> bullets_to_delete;
+            for (const auto &bullet: bullets_to_delete) {
                 bullets.remove(bullet);
             }
 
@@ -119,11 +119,11 @@ int main() {
                 bullet->update();
                 bullet->draw();
 
-                if (bullet->isOffScreen()) bulletsToDelete.push_back(bullet);
+                if (bullet->isOffScreen()) bullets_to_delete.push_back(bullet);
             }
 
-            std::list<std::shared_ptr<Asteroid>> asteroidsToDelete;
-            for (const auto &asteroid: asteroidsToDelete) {
+            std::list<std::shared_ptr<Asteroid>> asteroids_to_delete;
+            for (const auto &asteroid: asteroids_to_delete) {
                 asteroids.remove(asteroid);
             }
 
@@ -131,7 +131,7 @@ int main() {
                 asteroid->update();
                 asteroid->draw();
 
-                if (asteroid->isOffScreen()) asteroidsToDelete.push_back(asteroid);
+                if (asteroid->isOffScreen()) asteroids_to_delete.push_back(asteroid);
             }
 
             drawGui();
@@ -143,19 +143,19 @@ int main() {
         {
             window.ClearBackground(CLITERAL(Color){15, 15, 15});
 
-            float widthScale = static_cast<float>(GetScreenWidth()) / static_cast<float>(canvas.texture.width);
-            float heightScale = static_cast<float>(GetScreenHeight()) / static_cast<float>(canvas.texture.height);
-            float renderScale = std::min(widthScale, heightScale);
-            renderRec.width = static_cast<float>(canvas.texture.width) * renderScale;
-            renderRec.height = static_cast<float>(canvas.texture.height) * renderScale;
-            renderRec.x = (static_cast<float>(GetScreenWidth()) - renderRec.width) / 2.0f;
-            renderRec.y = (static_cast<float>(GetScreenHeight()) - renderRec.height) / 2.0f;
+            float width_scale = static_cast<float>(GetScreenWidth()) / static_cast<float>(canvas.texture.width);
+            float height_scale = static_cast<float>(GetScreenHeight()) / static_cast<float>(canvas.texture.height);
+            float render_scale = std::min(width_scale, height_scale);
+            render_rec.width = static_cast<float>(canvas.texture.width) * render_scale;
+            render_rec.height = static_cast<float>(canvas.texture.height) * render_scale;
+            render_rec.x = (static_cast<float>(GetScreenWidth()) - render_rec.width) / 2.0f;
+            render_rec.y = (static_cast<float>(GetScreenHeight()) - render_rec.height) / 2.0f;
 
-            auto sourceWidth = static_cast<float>(canvas.texture.width);
-            auto sourceHeight = static_cast<float>(-canvas.texture.height);
-            Rectangle source = Rectangle{0, 0, sourceWidth, sourceHeight};
+            auto source_width = static_cast<float>(canvas.texture.width);
+            auto source_height = static_cast<float>(-canvas.texture.height);
+            Rectangle source = Rectangle{0, 0, source_width, source_height};
 
-            DrawTexturePro(canvas.texture, source, renderRec, {}, 0, WHITE);
+            DrawTexturePro(canvas.texture, source, render_rec, {}, 0, WHITE);
         }
         EndDrawing();
     }

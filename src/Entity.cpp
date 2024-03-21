@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
-float screenWidth = 3840;
-float screenHeight = 2160;
+float screen_width = 3840;
+float screen_height = 2160;
 
 Entity::Entity(float x, float y, float size) {
     position = raylib::Vector2(x, y);
@@ -26,7 +26,7 @@ void Entity::move(float x, float y) {
 }
 
 bool Entity::isOffScreen() const {
-    return position.x < 0 || position.x > screenWidth || position.y < 0 || position.y > screenHeight;
+    return position.x < 0 || position.x > screen_width || position.y < 0 || position.y > screen_height;
 }
 
 bool Entity::checkCollision(const std::shared_ptr<Entity> &other) {

@@ -2,30 +2,30 @@
 
 #include <iostream>
 
-const int SCREEN_WIDTH = 3840;
-const int SCREEN_HEIGHT = 2160;
-const int ANIMATION_FRAMES = 8;
-const int MAX_ANGLE_SPEED = 5;
+const int screen_width = 3840;
+const int screen_height = 2160;
+const int animation_frame_count = 8;
+const int max_angle_speed = 5;
 
 Player::Player(float x, float y) : PhysicsObject(x, y, 100.0f) {
-    angleSpeed = 0;
+    angle_speed = 0;
     speed = 15;
     thrust = 100;
-    shootTimer = 0;
+    shoot_timer = 0;
 
-    for (int i = 0; i < ANIMATION_FRAMES; i++) {
+    for (int i = 0; i < animation_frame_count; i++) {
         animation[i] = raylib::Texture("res/spaceship/spaceship_" + std::to_string(i) + ".png");
-        int textureSize = 150;
+        int texture_size = 150;
         float ratio = (float) animation[i].GetWidth() / (float) animation[i].GetHeight();
 
-        animation[i].SetHeight(textureSize);
-        animation[i].SetWidth((int) ((float) textureSize * ratio));
+        animation[i].SetHeight(texture_size);
+        animation[i].SetWidth((int) ((float) texture_size * ratio));
         animation[i].SetFilter(TEXTURE_FILTER_TRILINEAR);
     }
 }
 
 void Player::draw() const {
-    int i = (frame / 2) % ANIMATION_FRAMES;
+    int i = (frame / 2) % animation_frame_count;
     auto width = (float) animation[i].GetWidth();
     auto height = (float) animation[i].GetHeight();
     raylib::Rectangle source(0, 0, width, height);
@@ -35,17 +35,17 @@ void Player::draw() const {
 
 void Player::update() {
     if (IsKeyDown(KEY_D))
-        angleSpeed += 0.3;
+        angle_speed += 0.3;
     if (IsKeyDown(KEY_A))
-        angleSpeed -= 0.3;
+        angle_speed -= 0.3;
 
     if (!IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
-        angleSpeed = approach(angleSpeed, 0, 0.4);
+        angle_speed = approach(angle_speed, 0, 0.4);
 
-    if (angleSpeed > MAX_ANGLE_SPEED)
-        angleSpeed = MAX_ANGLE_SPEED;
-    if (angleSpeed < -MAX_ANGLE_SPEED)
-        angleSpeed = -MAX_ANGLE_SPEED;
+    if (angle_speed > max_angle_speed)
+        angle_speed = max_angle_speed;
+    if (angle_speed < -max_angle_speed)
+        angle_speed = -max_angle_speed;
 
     raylib::Vector2 acceleration(0.0f, 0.0f);
     if (IsKeyDown(KEY_W)) {
@@ -54,34 +54,34 @@ void Player::update() {
         accelerate(acceleration);
     }
 
-    rotation += angleSpeed;
+    rotation += angle_speed;
 
-    if (position.x > SCREEN_WIDTH)
+    if (position.x > screen_width)
         position.x = 0;
     if (position.x < 0)
-        position.x = SCREEN_WIDTH;
-    if (position.y > SCREEN_HEIGHT)
+        position.x = screen_width;
+    if (position.y > screen_height)
         position.y = 0;
     if (position.y < 0)
-        position.y = SCREEN_HEIGHT;
+        position.y = screen_height;
 
-    if (shootTimer > 0)
-        shootTimer--;
+    if (shoot_timer > 0)
+        shoot_timer--;
 
     frame++;
 }
 
 bool Player::canShoot() const {
-    return shootTimer <= 0;
+    return shoot_timer <= 0;
 }
 
 std::shared_ptr<Bullet> Player::shoot() {
-    shootTimer = 10;
+    shoot_timer = 10;
 
-    float bulletX = position.x + (float) (sin(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
-    float bulletY = position.y - (float) (cos(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
+    float bullet_x = position.x + (float) (sin(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
+    float bullet_y = position.y - (float) (cos(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
 
-    return std::make_shared<Bullet>(bulletX, bulletY, rotation);
+    return std::make_shared<Bullet>(bullet_x, bullet_y, rotation);
 }
 
 float Player::approach(float value, float goal, float step) {
