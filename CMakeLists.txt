@@ -29,11 +29,20 @@ if (NOT raylib_cpp_FOUND)
 endif()
 
 # This is the main part:
-set(SOURCES src/main.cpp src/Entity.cpp src/PhysicsObject.cpp src/Player.cpp src/Bullet.cpp src/Asteroid.cpp)
+set(SOURCES 
+    src/main.cpp 
+    src/Entity.cpp 
+    src/PhysicsObject.cpp 
+    src/Player.cpp 
+    src/Bullet.cpp 
+    src/Asteroid.cpp)
+
+set(INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include)
+
 add_executable(${PROJECT_NAME} ${SOURCES})
+include_directories(${EXECUTABLE_NAME} PRIVATE ${INCLUDE_DIRS})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
 
 # Copy resources to target directory
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/res
-        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
