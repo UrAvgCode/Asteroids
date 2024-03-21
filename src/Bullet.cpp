@@ -1,4 +1,4 @@
-#include "../include/Bullet.hpp"
+#include "Bullet.hpp"
 
 Bullet::Bullet(float x, float y, float angle) : Entity(x, y, 10.0f) {
     this->rotation = angle;

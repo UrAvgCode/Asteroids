@@ -1,4 +1,4 @@
-#include "../include/Player.hpp"
+#include "Player.hpp"
 
 #include <iostream>
 
@@ -83,8 +83,8 @@ bool Player::canShoot() const {
 std::shared_ptr<Bullet> Player::shoot() {
     shoot_timer = 10;
 
-    float bullet_x = position.x + static_cast<float>(std::sin(rotation * (M_PI / 180.0f)) * animation[0].width * 0.32f);
-    float bullet_y = position.y - static_cast<float>(std::cos(rotation * (M_PI / 180.0f)) * animation[0].height * 0.32f);
+    float bullet_x = position.x + static_cast<float>(std::sin(DEG2RAD * rotation) * animation[0].width * 0.32f);
+    float bullet_y = position.y - static_cast<float>(std::cos(DEG2RAD * rotation) * animation[0].height * 0.32f);
 
     return std::make_shared<Bullet>(bullet_x, bullet_y, rotation);
 }

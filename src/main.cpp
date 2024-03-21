@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "raylib-cpp.hpp"
-#include "../include/Player.hpp"
-#include "../include/Asteroid.hpp"
+#include "Player.hpp"
+#include "Asteroid.hpp"
 
 const int screen_width = 3840;
 const int screen_height = 2160;
@@ -23,7 +23,7 @@ void spawnAsteroid() {
     auto y = static_cast<float>(GetRandomValue(0, screen_height));
     (GetRandomValue(0, 1) == 0) ? x = 0.0f : y = 0.0f;
 
-    auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * (180.0f / M_PI));
+    auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * RAD2DEG);
     auto size = static_cast<float>(GetRandomValue(150, 250));
 
     if (player->position.y - y > 0.0f) {

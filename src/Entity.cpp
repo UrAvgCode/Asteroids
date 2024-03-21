@@ -1,4 +1,4 @@
-#include "../include/Entity.hpp"
+#include "Entity.hpp"
 
 float screen_width = 3840;
 float screen_height = 2160;
