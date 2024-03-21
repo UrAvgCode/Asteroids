@@ -1,6 +1,7 @@
+#include <algorithm>
 #include <iostream>
-#include <memory>
 #include <list>
+#include <memory>
 
 #include "raylib-cpp.hpp"
 #include "../include/Player.hpp"
@@ -20,10 +21,10 @@ int score = 0;
 void spawnAsteroid() {
     auto x = static_cast<float>(GetRandomValue(0, screen_width));
     auto y = static_cast<float>(GetRandomValue(0, screen_height));
-
     (GetRandomValue(0, 1) == 0) ? x = 0.0f : y = 0.0f;
 
     auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * (180.0f / M_PI));
+    auto size = static_cast<float>(GetRandomValue(150, 250));
 
     if (player->position.y - y > 0.0f) {
         angle += 180.0f;
@@ -31,7 +32,7 @@ void spawnAsteroid() {
 
     angle += static_cast<float>(GetRandomValue(-45, 45));
 
-    asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, 150));
+    asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, size));
 }
 
 void checkCollisions() {

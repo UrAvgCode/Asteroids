@@ -29,5 +29,5 @@ std::shared_ptr<Asteroid> Asteroid::split() const {
 }
 
 bool Asteroid::canSplit() const {
-    return size > 100.0f;
+    return size > 150.0f;
 }
