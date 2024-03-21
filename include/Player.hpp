@@ -21,7 +21,7 @@ public:
 
     Player(float x, float y);
 
-    void draw() const;
+    void draw() const override;
 
     void update() override;
 
