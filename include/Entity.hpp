@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-
 #include "raylib-cpp.hpp"
 
 class Entity {

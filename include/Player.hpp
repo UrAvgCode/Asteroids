@@ -1,9 +1,5 @@
 #pragma once
 
-#include <cmath>
-#include <vector>
-#include "raylib-cpp.hpp"
-
 #include "Bullet.hpp"
 #include "PhysicsObject.hpp"
 

@@ -1,6 +1,8 @@
 #include "Player.hpp"
 
+#include <cmath>
 #include <iostream>
+#include <vector>
 
 const int screen_width = 3840;
 const int screen_height = 2160;
