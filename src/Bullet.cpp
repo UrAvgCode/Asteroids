@@ -6,8 +6,8 @@ Bullet::Bullet(float x, float y, float angle) : Entity(x, y, 10.0f) {
   this->rotation = angle;
 
   speed = 23.0f;
-  velocity.x = static_cast<float>(std::sin(angle * DEG2RAD) * speed);
-  velocity.y = static_cast<float>(-std::cos(angle * DEG2RAD) * speed);
+  velocity.x = std::sin(angle * DEG2RAD) * speed;
+  velocity.y = -std::cos(angle * DEG2RAD) * speed;
 
   texture = raylib::Texture("res/laser.png");
 }

@@ -7,8 +7,8 @@ Asteroid::Asteroid(float x, float y, float rotation, float size)
   this->rotation = rotation;
 
   speed = 5.0f;
-  velocity.x = static_cast<float>(std::sin(rotation * DEG2RAD) * speed);
-  velocity.y = static_cast<float>(-std::cos(rotation * DEG2RAD) * speed);
+  velocity.x = std::sin(rotation * DEG2RAD) * speed;
+  velocity.y = -std::cos(rotation * DEG2RAD) * speed;
 
   texture = raylib::Texture("res/asteroid.png");
 
