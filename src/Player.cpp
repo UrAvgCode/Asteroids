@@ -5,31 +5,31 @@
 const int screen_width = 3840;
 const int screen_height = 2160;
 const int animation_frame_count = 8;
-const int max_angle_speed = 5;
+const float max_angle_speed = 5.0f;
 
 Player::Player(float x, float y) : PhysicsObject(x, y, 100.0f) {
-    angle_speed = 0;
-    speed = 15;
-    thrust = 100;
+    angle_speed = 0.0f;
+    speed = 15.0f;
+    thrust = 100.0f;
     shoot_timer = 0;
 
     for (int i = 0; i < animation_frame_count; i++) {
         animation[i] = raylib::Texture("res/spaceship/spaceship_" + std::to_string(i) + ".png");
         int texture_size = 150;
-        float ratio = (float) animation[i].GetWidth() / (float) animation[i].GetHeight();
+        float ratio = static_cast<float>(animation[i].width) / static_cast<float>(animation[i].height);
 
         animation[i].SetHeight(texture_size);
-        animation[i].SetWidth((int) ((float) texture_size * ratio));
+        animation[i].SetWidth(static_cast<int>(static_cast<float>(texture_size) * ratio));
         animation[i].SetFilter(TEXTURE_FILTER_TRILINEAR);
     }
 }
 
 void Player::draw() const {
     int i = (frame / 2) % animation_frame_count;
-    auto width = (float) animation[i].GetWidth();
-    auto height = (float) animation[i].GetHeight();
+    auto width = static_cast<float>(animation[i].width);
+    auto height = static_cast<float>(animation[i].height);
     raylib::Rectangle source(0, 0, width, height);
-    raylib::Rectangle dest((float) position.x, (float) position.y, width, height);
+    raylib::Rectangle dest(position.x, position.y, width, height);
     DrawTexturePro(animation[i], source, dest, Vector2{width / 2, height / 2}, rotation, WHITE);
 }
 
@@ -57,12 +57,12 @@ void Player::update() {
     rotation += angle_speed;
 
     if (position.x > screen_width)
-        position.x = 0;
-    if (position.x < 0)
+        position.x = 0.0f;
+    if (position.x < 0.0f)
         position.x = screen_width;
     if (position.y > screen_height)
-        position.y = 0;
-    if (position.y < 0)
+        position.y = 0.0f;
+    if (position.y < 0.0f)
         position.y = screen_height;
 
     if (shoot_timer > 0)
@@ -78,8 +78,8 @@ bool Player::canShoot() const {
 std::shared_ptr<Bullet> Player::shoot() {
     shoot_timer = 10;
 
-    float bullet_x = position.x + (float) (sin(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
-    float bullet_y = position.y - (float) (cos(rotation * (M_PI / 180)) * animation[0].GetWidth() * 0.32);
+    float bullet_x = position.x + static_cast<float>(std::sin(rotation * (M_PI / 180.0f)) * animation[0].width * 0.32f);
+    float bullet_y = position.y - static_cast<float>(std::cos(rotation * (M_PI / 180.0f)) * animation[0].height * 0.32f);
 
     return std::make_shared<Bullet>(bullet_x, bullet_y, rotation);
 }

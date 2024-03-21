@@ -21,12 +21,12 @@ void spawnAsteroid() {
     auto x = static_cast<float>(GetRandomValue(0, screen_width));
     auto y = static_cast<float>(GetRandomValue(0, screen_height));
 
-    (GetRandomValue(0, 1) == 0) ? x = 0 : y = 0;
+    (GetRandomValue(0, 1) == 0) ? x = 0.0f : y = 0.0f;
 
-    auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * (180 / M_PI));
+    auto angle = static_cast<float>(std::atan((x - player->position.x) / (player->position.y - y)) * (180.0f / M_PI));
 
-    if (player->position.y - y > 0) {
-        angle += 180;
+    if (player->position.y - y > 0.0f) {
+        angle += 180.0f;
     }
 
     angle += static_cast<float>(GetRandomValue(-45, 45));
@@ -153,9 +153,9 @@ int main() {
 
             auto source_width = static_cast<float>(canvas.texture.width);
             auto source_height = static_cast<float>(-canvas.texture.height);
-            Rectangle source = Rectangle{0, 0, source_width, source_height};
+            Rectangle source = Rectangle{0.0f, 0.0f, source_width, source_height};
 
-            DrawTexturePro(canvas.texture, source, render_rec, {}, 0, WHITE);
+            DrawTexturePro(canvas.texture, source, render_rec, {}, 0.0f, WHITE);
         }
         EndDrawing();
     }
