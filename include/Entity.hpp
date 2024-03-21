@@ -1,26 +1,27 @@
 #pragma once
 
-#include "raylib-cpp.hpp"
 #include <memory>
 
+#include "raylib-cpp.hpp"
+
 class Entity {
-public:
-    raylib::Vector2 position;
-    raylib::Vector2 velocity;
+ public:
+  raylib::Vector2 position;
+  raylib::Vector2 velocity;
 
-    float size;
-    float rotation;
-    float speed;
+  float size;
+  float rotation;
+  float speed;
 
-    Entity(float x, float y, float size);
+  Entity(float x, float y, float size);
 
-    virtual void draw() const;
+  virtual void draw() const;
 
-    virtual void update();
+  virtual void update();
 
-    void move(float x, float y);
+  void move(float x, float y);
 
-    [[nodiscard]] bool isOffScreen() const;
+  [[nodiscard]] bool isOffScreen() const;
 
-    virtual bool checkCollision(const std::shared_ptr<Entity> &other);
+  virtual bool checkCollision(const std::shared_ptr<Entity>& other);
 };

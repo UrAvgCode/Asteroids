@@ -1,33 +1,32 @@
 #pragma once
 
-#include "raylib-cpp.hpp"
 #include <cmath>
 #include <vector>
+#include "raylib-cpp.hpp"
 
-#include "PhysicsObject.hpp"
 #include "Bullet.hpp"
+#include "PhysicsObject.hpp"
 
-class Player : public PhysicsObject
-{
-public:
-    float angle_speed;
-    float thrust;
+class Player : public PhysicsObject {
+ public:
+  float angle_speed;
+  float thrust;
 
-    int shoot_timer;
+  int shoot_timer;
 
-    int frame = 0;
+  int frame = 0;
 
-    raylib::Texture animation[8];
+  raylib::Texture animation[8];
 
-    Player(float x, float y);
+  Player(float x, float y);
 
-    void draw() const override;
+  void draw() const override;
 
-    void update() override;
+  void update() override;
 
-    [[nodiscard]] bool canShoot() const;
+  [[nodiscard]] bool canShoot() const;
 
-    std::shared_ptr<Bullet> shoot();
+  std::shared_ptr<Bullet> shoot();
 
-    static float approach(float value, float goal, float step);
+  static float approach(float value, float goal, float step);
 };

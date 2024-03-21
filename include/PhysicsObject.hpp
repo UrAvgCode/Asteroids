@@ -3,14 +3,13 @@
 #include "Entity.hpp"
 
 class PhysicsObject : public Entity {
+ public:
+  float max_speed;
+  float friction;
 
-public:
-    float max_speed;
-    float friction;
+  PhysicsObject(float x, float y, float size);
 
-    PhysicsObject(float x, float y, float size);
+  void update() override;
 
-    void update() override;
-
-    void accelerate(raylib::Vector2 acceleration);
+  void accelerate(raylib::Vector2 acceleration);
 };
