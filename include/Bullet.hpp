@@ -6,7 +6,7 @@ class Bullet : public Entity {
  public:
   raylib::Texture texture;
 
-  Bullet(float x, float y, float angle);
+  Bullet(float x, float y, float rotaton);
 
   void draw() const override;
 };

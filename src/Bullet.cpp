@@ -2,12 +2,11 @@
 
 #include <cmath>
 
-Bullet::Bullet(float x, float y, float angle) : Entity(x, y, 10.0f) {
-  this->rotation = angle;
+Bullet::Bullet(float x, float y, float rotation) : Entity(x, y, 10.0f) {
+  this->rotation = rotation;
 
   speed = 23.0f;
-  velocity.x = std::sin(angle * DEG2RAD) * speed;
-  velocity.y = -std::cos(angle * DEG2RAD) * speed;
+  velocity += raylib::Vector2{0.0f, -speed}.Rotate(DEG2RAD * rotation);
 
   texture = raylib::Texture("res/laser.png");
 }
