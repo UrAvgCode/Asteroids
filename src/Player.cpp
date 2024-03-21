@@ -42,10 +42,11 @@ void Player::update() {
     if (!IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
         angle_speed = approach(angle_speed, 0, 0.4);
 
-    if (angle_speed > max_angle_speed)
+    if (angle_speed > max_angle_speed) {
         angle_speed = max_angle_speed;
-    if (angle_speed < -max_angle_speed)
+    } else if (angle_speed < -max_angle_speed) {
         angle_speed = -max_angle_speed;
+    }
 
     raylib::Vector2 acceleration(0.0f, 0.0f);
     if (IsKeyDown(KEY_W)) {
@@ -56,17 +57,21 @@ void Player::update() {
 
     rotation += angle_speed;
 
-    if (position.x > screen_width)
-        position.x = 0.0f;
-    if (position.x < 0.0f)
-        position.x = screen_width;
-    if (position.y > screen_height)
-        position.y = 0.0f;
-    if (position.y < 0.0f)
-        position.y = screen_height;
+    if (position.x > screen_width) {
+        position.x -= screen_width;
+    } else if (position.x < 0.0f) {
+        position.x += screen_width;
+    }
+        
+    if (position.y > screen_height) {
+        position.y -= screen_height;
+    } else if (position.y < 0.0f) {
+        position.y += screen_height;
+    }
 
-    if (shoot_timer > 0)
+    if (shoot_timer > 0) {
         shoot_timer--;
+    }
 
     frame++;
 }
