@@ -3,8 +3,8 @@
 #include <list>
 
 #include "raylib-cpp.hpp"
-#include "Player.hpp"
-#include "Asteroid.hpp"
+#include "../include/Player.hpp"
+#include "../include/Asteroid.hpp"
 
 const int screen_width = 3840;
 const int screen_height = 2160;

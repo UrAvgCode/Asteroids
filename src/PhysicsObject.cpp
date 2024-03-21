@@ -1,5 +1,5 @@
 
-#include "PhysicsObject.hpp"
+#include "../include/PhysicsObject.hpp"
 
 PhysicsObject::PhysicsObject(float x, float y, float size) : Entity(x, y, size) {
     max_speed = 20.0f;

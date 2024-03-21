@@ -1,4 +1,4 @@
-#include "Asteroid.hpp"
+#include "../include/Asteroid.hpp"
 
 Asteroid::Asteroid(float x, float y, float angle, float size) : Entity(x, y, size) {
     this->rotation = angle;
