@@ -81,6 +81,14 @@ void drawGui() {
     DrawText(std::to_string(score).c_str(), 150, 135, 28, WHITE);
 }
 
+void resetGame() {
+    score = 0;
+    health = max_health;
+    player->position.x = static_cast<float>(screen_width) / 2.0f;
+    player->position.y = static_cast<float>(screen_height) / 2.0f;
+    asteroids.clear();
+}
+
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     raylib::Window window(screen_width, screen_height, "");
@@ -96,6 +104,10 @@ int main() {
         BeginTextureMode(canvas);
         {
             ClearBackground(BLACK);
+
+            if (health <= 0) {
+                resetGame();
+            }
 
             checkCollisions();
 
