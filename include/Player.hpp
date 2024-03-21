@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Bullet.hpp"
 #include "PhysicsObject.hpp"
 
@@ -9,10 +11,9 @@ class Player : public PhysicsObject {
   float thrust;
 
   int shoot_timer;
-
   int frame = 0;
 
-  raylib::Texture animation[8];
+  std::array<raylib::Texture, 8> animation;
 
   Player(float x, float y);
 
