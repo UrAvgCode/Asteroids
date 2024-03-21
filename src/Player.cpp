@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <string>
 #include <vector>
 
 const int screen_width = 3840;
@@ -16,34 +17,44 @@ Player::Player(float x, float y) : PhysicsObject(x, y, 100.0f) {
   shoot_timer = 0;
 
   for (int i = 0; i < animation_frame_count; i++) {
-    animation[i] = raylib::Texture("res/spaceship/spaceship_" +
-                                   std::to_string(i) + ".png");
-    int texture_size = 150;
-    float ratio = static_cast<float>(animation[i].width) /
-                  static_cast<float>(animation[i].height);
+    std::string filename = "spaceship_" + std::to_string(i) + ".png";
+    animation[i] = raylib::Texture("res/spaceship/" + filename);
+  }
 
-    animation[i].SetHeight(texture_size);
-    animation[i].SetWidth(
-        static_cast<int>(static_cast<float>(texture_size) * ratio));
-    animation[i].SetFilter(TEXTURE_FILTER_TRILINEAR);
+  float texture_width = static_cast<float>(animation[0].width);
+  float texture_height = static_cast<float>(animation[0].height);
+  float ratio = texture_width / texture_height;
+  float target_size = 150.0f;
+
+  int height = static_cast<int>(target_size);
+  int width = static_cast<int>(target_size * ratio);
+
+  for (auto& animation_frame : animation) {
+    animation_frame.SetWidth(width);
+    animation_frame.SetHeight(height);
+    animation_frame.SetFilter(TEXTURE_FILTER_TRILINEAR);
   }
 }
 
 void Player::draw() const {
-  int i = (frame / 2) % animation_frame_count;
-  auto width = static_cast<float>(animation[i].width);
-  auto height = static_cast<float>(animation[i].height);
+  int index = (frame / 2) % animation_frame_count;
+  float width = static_cast<float>(animation[index].width);
+  float height = static_cast<float>(animation[index].height);
+
   raylib::Rectangle source(0, 0, width, height);
   raylib::Rectangle dest(position.x, position.y, width, height);
-  DrawTexturePro(animation[i], source, dest, Vector2{width / 2, height / 2},
-                 rotation, WHITE);
+  raylib::Vector2 origin(width / 2, height / 2);
+  DrawTexturePro(animation[index], source, dest, origin, rotation, WHITE);
 }
 
 void Player::update() {
-  if (IsKeyDown(KEY_D))
+  if (IsKeyDown(KEY_D)) {
     angle_speed += 0.3;
-  if (IsKeyDown(KEY_A))
+  }
+
+  if (IsKeyDown(KEY_A)) {
     angle_speed -= 0.3;
+  }
 
   if (!IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
     angle_speed = approach(angle_speed, 0, 0.4);
@@ -89,12 +100,12 @@ bool Player::canShoot() const {
 std::shared_ptr<Bullet> Player::shoot() {
   shoot_timer = 10;
 
-  float bullet_x =
-      position.x + static_cast<float>(std::sin(DEG2RAD * rotation) *
-                                      animation[0].width * 0.32f);
-  float bullet_y =
-      position.y - static_cast<float>(std::cos(DEG2RAD * rotation) *
-                                      animation[0].height * 0.32f);
+  float offset = static_cast<float>(animation[0].width) * 0.32f;
+  float offset_x = std::sin(DEG2RAD * rotation) * offset;
+  float offset_y = std::cos(DEG2RAD * rotation) * offset;
+
+  float bullet_x = position.x + offset_x;
+  float bullet_y = position.y - offset_y;
 
   return std::make_shared<Bullet>(bullet_x, bullet_y, rotation);
 }
