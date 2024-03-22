@@ -22,17 +22,14 @@ void spawnAsteroid() {
   float x = static_cast<float>(GetRandomValue(0, canvas_width));
   float y = static_cast<float>(GetRandomValue(0, canvas_height));
   (GetRandomValue(0, 1) == 0) ? x = 0.0f : y = 0.0f;
-
-  float delta_x = player->position.x - x;
-  float delta_y = player->position.y - y;
-  raylib::Vector2 direction_vector = raylib::Vector2{delta_x, delta_y};
+  raylib::Vector2 direction = player->position - raylib::Vector2{x, y};
 
   float angle_offset = static_cast<float>(GetRandomValue(-20, 20));
-  direction_vector = direction_vector.Rotate(DEG2RAD * angle_offset);
+  direction = direction.Rotate(DEG2RAD * angle_offset);
 
   float size = static_cast<float>(GetRandomValue(150, 250));
 
-  asteroids.push_back(std::make_shared<Asteroid>(x, y, direction_vector, size));
+  asteroids.push_back(std::make_shared<Asteroid>(x, y, direction, size));
 }
 
 void checkCollisions() {
