@@ -1,5 +1,6 @@
 #include "Player.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <string>
 #include <vector>
@@ -58,11 +59,7 @@ void Player::update() {
   if (!IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
     angle_speed = approach(angle_speed, 0, 0.4);
 
-  if (angle_speed > max_angle_speed) {
-    angle_speed = max_angle_speed;
-  } else if (angle_speed < -max_angle_speed) {
-    angle_speed = -max_angle_speed;
-  }
+  angle_speed = std::clamp(angle_speed, -max_angle_speed, max_angle_speed);
 
   raylib::Vector2 acceleration(0.0f, 0.0f);
   if (IsKeyDown(KEY_W)) {
