@@ -28,7 +28,8 @@ void Asteroid::draw() const {
 }
 
 std::shared_ptr<Asteroid> Asteroid::split() const {
-  float angle = rotation + static_cast<float>(GetRandomValue(-45, 45));
+  float angle_offset = static_cast<float>(GetRandomValue(-45, 45));
+  auto angle = velocity.Rotate(angle_offset * DEG2RAD);
   return std::make_shared<Asteroid>(position.x, position.y, angle, size / 1.5f);
 }
 
