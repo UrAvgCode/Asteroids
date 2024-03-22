@@ -41,7 +41,7 @@ set(INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 include_directories(${EXECUTABLE_NAME} PRIVATE ${INCLUDE_DIRS})
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 11)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 23)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
 
 # Copy resources to target directory
