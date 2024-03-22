@@ -2,10 +2,10 @@
 #include <iostream>
 #include <list>
 #include <memory>
+#include <raylib-cpp.hpp>
 
 #include "Asteroid.hpp"
 #include "Player.hpp"
-#include "raylib-cpp.hpp"
 
 const int canvas_width = 3840;
 const int canvas_height = 2160;
@@ -25,16 +25,14 @@ void spawnAsteroid() {
 
   float delta_x = player->position.x - x;
   float delta_y = player->position.y - y;
-  float angle = static_cast<float>(std::atan(delta_x / delta_y) * RAD2DEG);
+  raylib::Vector2 direction_vector = raylib::Vector2{delta_x, delta_y};
+
+  float angle_offset = static_cast<float>(GetRandomValue(-20, 20));
+  direction_vector = direction_vector.Rotate(DEG2RAD * angle_offset);
+
   float size = static_cast<float>(GetRandomValue(150, 250));
 
-  if (player->position.y - y > 0.0f) {
-    angle += 180.0f;
-  }
-
-  angle += static_cast<float>(GetRandomValue(-45, 45));
-
-  asteroids.push_back(std::make_shared<Asteroid>(x, y, angle, size));
+  asteroids.push_back(std::make_shared<Asteroid>(x, y, direction_vector, size));
 }
 
 void checkCollisions() {

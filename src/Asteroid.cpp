@@ -2,13 +2,12 @@
 
 #include <cmath>
 
-Asteroid::Asteroid(float x, float y, float rotation, float size)
+Asteroid::Asteroid(float x, float y, raylib::Vector2 dir, float size)
     : Entity(x, y, size) {
-  this->rotation = rotation;
+  rotation = static_cast<float>(GetRandomValue(0, 360));
 
   speed = 5.0f;
-  velocity.x = std::sin(rotation * DEG2RAD) * speed;
-  velocity.y = -std::cos(rotation * DEG2RAD) * speed;
+  velocity = dir.Normalize() * speed;
 
   texture = raylib::Texture("res/asteroid.png");
 
@@ -25,7 +24,7 @@ void Asteroid::draw() const {
   raylib::Rectangle source(0.0f, 0.0f, width, height);
   raylib::Rectangle dest(position.x, position.y, width, height);
   raylib::Vector2 origin = {width / 2.0f, height / 2.0f};
-  DrawTexturePro(texture, source, dest, origin, 0.0f, WHITE);
+  DrawTexturePro(texture, source, dest, origin, rotation, WHITE);
 }
 
 std::shared_ptr<Asteroid> Asteroid::split() const {

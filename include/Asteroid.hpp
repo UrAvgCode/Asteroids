@@ -6,7 +6,7 @@ class Asteroid : public Entity {
  public:
   raylib::Texture texture;
 
-  Asteroid(float x, float y, float rotation, float size);
+  Asteroid(float x, float y, raylib::Vector2 dir, float size);
 
   void draw() const override;
 
