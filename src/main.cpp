@@ -96,6 +96,7 @@ int main() {
   raylib::Window window(canvas_width, canvas_height, "");
 
   RenderTexture2D canvas = LoadRenderTexture(canvas_width, canvas_height);
+  SetTextureFilter(canvas.texture, TEXTURE_FILTER_TRILINEAR);
   Rectangle render_rec;
 
   float screen_center_x = static_cast<float>(canvas_width) / 2.0f;
@@ -180,7 +181,6 @@ int main() {
       float source_height = static_cast<float>(-canvas.texture.height);
       raylib::Rectangle source = {0.0f, 0.0f, source_width, source_height};
 
-      SetTextureFilter(canvas.texture, TEXTURE_FILTER_TRILINEAR);
       DrawTexturePro(canvas.texture, source, render_rec, {}, 0.0f, WHITE);
     }
     EndDrawing();
