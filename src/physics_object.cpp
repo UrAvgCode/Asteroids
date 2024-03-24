@@ -1,5 +1,5 @@
 
-#include "PhysicsObject.hpp"
+#include "physics_object.hpp"
 
 PhysicsObject::PhysicsObject(float x, float y, float size)
     : Entity(x, y, size) {

@@ -1,4 +1,4 @@
-#include "Asteroid.hpp"
+#include "asteroid.hpp"
 
 #include <cmath>
 

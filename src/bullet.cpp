@@ -1,4 +1,4 @@
-#include "Bullet.hpp"
+#include "bullet.hpp"
 
 #include <cmath>
 

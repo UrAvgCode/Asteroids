@@ -2,8 +2,8 @@
 
 #include <array>
 
-#include "Bullet.hpp"
-#include "PhysicsObject.hpp"
+#include "bullet.hpp"
+#include "physics_object.hpp"
 
 class Player : public PhysicsObject {
  public:

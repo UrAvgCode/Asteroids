@@ -1,4 +1,4 @@
-#include "Entity.hpp"
+#include "game_object.hpp"
 
 float screen_width = 3840;
 float screen_height = 2160;

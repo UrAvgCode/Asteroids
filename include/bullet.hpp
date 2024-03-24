@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entity.hpp"
+#include "game_object.hpp"
 
 class Bullet : public Entity {
  public:

@@ -4,8 +4,8 @@
 #include <memory>
 #include <raylib-cpp.hpp>
 
-#include "Asteroid.hpp"
-#include "Player.hpp"
+#include "asteroid.hpp"
+#include "player.hpp"
 
 const int canvas_width = 3840;
 const int canvas_height = 2160;
