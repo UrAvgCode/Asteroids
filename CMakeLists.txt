@@ -31,11 +31,11 @@ endif()
 # This is the main part:
 set(SOURCES 
     src/main.cpp 
-    src/Entity.cpp 
-    src/PhysicsObject.cpp 
-    src/Player.cpp 
-    src/Bullet.cpp 
-    src/Asteroid.cpp)
+    src/game_object.cpp 
+    src/physics_object.cpp
+    src/player.cpp 
+    src/bullet.cpp 
+    src/asteroid.cpp)
 
 set(INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include)
 
