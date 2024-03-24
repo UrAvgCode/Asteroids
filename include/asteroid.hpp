@@ -2,7 +2,7 @@
 
 #include "game_object.hpp"
 
-class Asteroid : public Entity {
+class Asteroid : public GameObject {
  public:
   raylib::Texture texture;
 

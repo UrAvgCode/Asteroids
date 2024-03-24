@@ -3,7 +3,7 @@
 #include <memory>
 #include <raylib-cpp.hpp>
 
-class Entity {
+class GameObject {
  public:
   raylib::Vector2 position;
   raylib::Vector2 velocity;
@@ -12,7 +12,7 @@ class Entity {
   float rotation;
   float speed;
 
-  Entity(float x, float y, float size);
+  GameObject(float x, float y, float size);
 
   virtual void draw() const;
 
@@ -22,5 +22,5 @@ class Entity {
 
   [[nodiscard]] bool isOffScreen() const;
 
-  virtual bool checkCollision(const std::shared_ptr<Entity>& other);
+  virtual bool checkCollision(const std::shared_ptr<GameObject>& other);
 };

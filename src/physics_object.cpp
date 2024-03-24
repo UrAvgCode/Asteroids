@@ -2,13 +2,13 @@
 #include "physics_object.hpp"
 
 PhysicsObject::PhysicsObject(float x, float y, float size)
-    : Entity(x, y, size) {
+    : GameObject(x, y, size) {
   max_speed = 20.0f;
   friction = 0.05f;
 }
 
 void PhysicsObject::update() {
-  Entity::update();
+  GameObject::update();
 }
 
 void PhysicsObject::accelerate(raylib::Vector2 acceleration) {

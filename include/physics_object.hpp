@@ -2,7 +2,7 @@
 
 #include "game_object.hpp"
 
-class PhysicsObject : public Entity {
+class PhysicsObject : public GameObject {
  public:
   float max_speed;
   float friction;

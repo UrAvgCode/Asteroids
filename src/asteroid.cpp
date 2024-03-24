@@ -3,7 +3,7 @@
 #include <cmath>
 
 Asteroid::Asteroid(float x, float y, raylib::Vector2 dir, float size)
-    : Entity(x, y, size) {
+    : GameObject(x, y, size) {
   rotation = static_cast<float>(GetRandomValue(0, 360));
 
   speed = 5.0f;

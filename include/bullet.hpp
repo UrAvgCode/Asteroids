@@ -2,7 +2,7 @@
 
 #include "game_object.hpp"
 
-class Bullet : public Entity {
+class Bullet : public GameObject {
  public:
   raylib::Texture texture;
 

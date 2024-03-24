@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-Bullet::Bullet(float x, float y, float rotation) : Entity(x, y, 10.0f) {
+Bullet::Bullet(float x, float y, float rotation) : GameObject(x, y, 10.0f) {
   this->rotation = rotation;
 
   speed = 23.0f;
